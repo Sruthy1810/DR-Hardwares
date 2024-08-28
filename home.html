@@ -1,0 +1,2385 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        /*=============== GOOGLE FONTS ===============*/
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+        .img1 {
+            height: 100px;
+            width: 200px;
+            padding-top: 5%;
+        }
+
+        /*=============== VARIABLES CSS ===============*/
+
+        :root {
+            --header-height: 3.5rem;
+            /*56px*/
+            /*========== Colors ==========*/
+            /*Color mode HSL(hue, saturation, lightness)*/
+            --hue: 152;
+            --first-color: hsl(var(--hue), 24%, 32%);
+            --first-color-alt: hsl(var(--hue), 24%, 28%);
+            --first-color-light: hsl(var(--hue), 24%, 66%);
+            --first-color-lighten: hsl(var(--hue), 24%, 92%);
+            --title-color: hsl(var(--hue), 4%, 15%);
+            --text-color: hsl(var(--hue), 4%, 35%);
+            --text-color-light: hsl(var(--hue), 4%, 55%);
+            --body-color: hsl(var(--hue), 0%, 100%);
+            --container-color: #FFF;
+            /*========== Font and typography ==========*/
+            /*.5rem = 8px | 1rem = 16px ...*/
+            --body-font: 'Poppins', sans-serif;
+            --big-font-size: 2rem;
+            --h1-font-size: 1.5rem;
+            --h2-font-size: 1.25rem;
+            --h3-font-size: 1rem;
+            --normal-font-size: .938rem;
+            --small-font-size: .813rem;
+            --smaller-font-size: .75rem;
+            /*========== Font weight ==========*/
+            --font-medium: 500;
+            --font-semi-bold: 600;
+            /*========== Margenes Bottom ==========*/
+            /*.5rem = 8px | 1rem = 16px ...*/
+            --mb-0-5: .5rem;
+            --mb-0-75: .75rem;
+            --mb-1: 1rem;
+            --mb-1-5: 1.5rem;
+            --mb-2: 2rem;
+            --mb-2-5: 2.5rem;
+            /*========== z index ==========*/
+            --z-tooltip: 10;
+            --z-fixed: 100;
+        }
+
+        /* Responsive typography */
+
+        @media screen and (min-width: 968px) {
+            :root {
+                --big-font-size: 3.5rem;
+                --h1-font-size: 2.25rem;
+                --h2-font-size: 1.5rem;
+                --h3-font-size: 1.25rem;
+                --normal-font-size: 1rem;
+                --small-font-size: .875rem;
+                --smaller-font-size: .813rem;
+            }
+        }
+
+        /*=============== BASE ===============*/
+
+        * {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body,
+        button,
+        input,
+        textarea {
+            font-family: var(--body-font);
+            font-size: var(--normal-font-size);
+        }
+
+        body {
+            margin: var(--header-height) 0 0 0;
+            background-color: var(--body-color);
+            color: var(--text-color);
+            transition: .4s;
+            /*For animation dark mode*/
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            outline: none;
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: var(--title-color);
+            font-weight: var(--font-semi-bold);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /*=============== THEME ===============*/
+        /*========== Variables Dark theme ==========*/
+
+        body.dark-theme {
+            --first-color-dark: hsl(var(--hue), 8%, 20%);
+            --title-color: hsl(var(--hue), 4%, 95%);
+            --text-color: hsl(var(--hue), 4%, 75%);
+            --body-color: hsl(var(--hue), 0%, 12%);
+            --container-color: hsl(var(--hue), 8%, 16%);
+        }
+
+        /*========== Button Dark/Light ==========*/
+
+        .change-theme {
+            color: var(--title-color);
+            font-size: 1.15rem;
+            cursor: pointer;
+        }
+
+        .nav__btns {
+            display: flex;
+            align-items: center;
+            column-gap: 1rem;
+        }
+
+        /*========== 
+Color changes in some parts of 
+the website, in dark theme 
+==========*/
+
+        .dark-theme .steps__bg,
+        .dark-theme .questions {
+            background-color: var(--first-color-dark);
+        }
+
+        .dark-theme .product__circle,
+        .dark-theme .footer__subscribe {
+            background-color: var(--container-color);
+        }
+
+        .dark-theme .scroll-header {
+            box-shadow: 0 1px 4px hsla(var(--hue), 4%, 4%, .3);
+        }
+
+        /*=============== REUSABLE CSS CLASSES ===============*/
+
+        .section {
+            padding: 5.5rem 0 1rem;
+        }
+
+        .section__title,
+        .section__title-center {
+            font-size: var(--h2-font-size);
+            margin-bottom: var(--mb-2);
+            line-height: 140%;
+        }
+
+        .section__title-center {
+            text-align: center;
+        }
+
+        .container {
+            max-width: 968px;
+            margin-left: var(--mb-1-5);
+            margin-right: var(--mb-1-5);
+        }
+
+        .grid {
+            display: grid;
+        }
+
+        .main {
+            overflow: hidden;
+            /*For animation*/
+        }
+
+        /*=============== HEADER ===============*/
+
+        .header {
+            width: 100%;
+            background-color: var(--body-color);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: var(--z-fixed);
+            transition: .4s;
+        }
+
+        /*=============== NAV ===============*/
+
+        .nav {
+            height: var(--header-height);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav__logo,
+        .nav__toggle,
+        .nav__close {
+            color: var(--title-color);
+        }
+
+        .nav__logo {
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: -1px;
+            display: inline-flex;
+            align-items: center;
+            column-gap: .5rem;
+            transition: .3s;
+        }
+
+        .nav__logo:hover {
+            color: var(--first-color);
+        }
+
+        .nav__logo-icon {
+            font-size: 1.15rem;
+            color: var(--first-color);
+        }
+
+        .nav__toggle {
+            display: inline-flex;
+            font-size: 1.25rem;
+            cursor: pointer;
+        }
+
+        @media screen and (max-width: 767px) {
+            .nav__menu {
+                position: fixed;
+                background-color: var(--container-color);
+                width: 80%;
+                height: 100%;
+                top: 0;
+                right: -100%;
+                box-shadow: -2px 0 4px hsl(var(--hue), 24%, 15%, .1);
+                padding: 4rem 0 0 1rem;
+                border-radius: 1rem 0 0 1rem;
+                transition: .3s;
+                z-index: var(--z-fixed);
+            }
+        }
+
+        .nav__close {
+            font-size: 1.5rem;
+            position: absolute;
+            top: 1rem;
+            right: 1.25rem;
+            cursor: pointer;
+        }
+
+        .nav__list {
+            display: flex;
+            flex-direction: column;
+            row-gap: 1.5rem;
+        }
+
+        .nav__link {
+            color: var(--title-color);
+            font-weight: var(--font-medium);
+        }
+
+        .nav__link:hover {
+            color: var(--first-color);
+        }
+
+        /* Show menu */
+
+        .show-menu {
+            right: 0;
+        }
+
+        /* Change background header */
+
+        .scroll-header {
+            box-shadow: 0 1px 4px hsla(var(--hue), 4%, 15%, .1);
+        }
+
+        /* Active link */
+
+        .active-link {
+            position: relative;
+            color: var(--first-color);
+        }
+
+        .active-link::after {
+            content: '';
+            position: absolute;
+            bottom: -.5rem;
+            left: 0;
+            width: 50%;
+            height: 2px;
+            background-color: var(--first-color);
+        }
+
+        /*=============== HOME ===============*/
+
+        .home {
+            padding: 3.5rem 0 2rem;
+        }
+
+        .home__container {
+            position: relative;
+            row-gap: 2rem;
+        }
+
+        .home__img {
+            width: 200px;
+            justify-self: center;
+        }
+
+        .home__title {
+            font-size: var(--big-font-size);
+            line-height: 140%;
+            margin-bottom: var(--mb-1);
+        }
+
+        .home__description {
+            margin-bottom: var(--mb-2-5);
+        }
+
+        .home__social {
+            position: absolute;
+            top: 2rem;
+            right: -1rem;
+            display: grid;
+            justify-items: center;
+            row-gap: 3.5rem;
+        }
+
+        .home__social-follow {
+            font-weight: var(--font-medium);
+            font-size: var(--smaller-font-size);
+            color: var(--first-color);
+            position: relative;
+            transform: rotate(90deg);
+        }
+
+        .home__social-follow::after {
+            content: '';
+            position: absolute;
+            width: 1rem;
+            height: 2px;
+            background-color: var(--first-color);
+            right: -45%;
+            top: 50%;
+        }
+
+        .home__social-links {
+            display: inline-flex;
+            flex-direction: column;
+            row-gap: .25rem;
+        }
+
+        .home__social-link {
+            font-size: 1rem;
+            color: var(--first-color);
+            transition: .3s;
+        }
+
+        .home__social-link:hover {
+            transform: translateX(.25rem);
+        }
+
+        /*=============== BUTTONS ===============*/
+
+        .button {
+            display: inline-block;
+            background: var(--first-color);
+            color: #fff;
+            padding: 1rem 1.75rem;
+            border-radius: .5rem;
+            font-weight: var(--font-medium);
+            transition: .3s;
+        }
+
+        .button:hover {
+            background-color: var(--first-color-alt);
+        }
+
+        .button__icon {
+            transition: .3s;
+        }
+
+        .button:hover .button__icon {
+            transform: translateX(.25rem);
+        }
+
+        .button--flex {
+            display: inline-flex;
+            align-items: center;
+            column-gap: .5rem;
+        }
+
+        .button--link {
+            color: var(--first-color);
+            font-weight: var(--font-medium);
+        }
+
+        .button--link:hover .button__icon {
+            transform: translateX(.25rem);
+        }
+
+        /*=============== ABOUT ===============*/
+
+        .about__container {
+            row-gap: 2rem;
+        }
+
+        .about__img {
+            width: 280px;
+            justify-self: center;
+        }
+
+        .about__title {
+            margin-bottom: var(--mb-1);
+        }
+
+        .about__description {
+            margin-bottom: var(--mb-2);
+        }
+
+        .about__details {
+            display: grid;
+            row-gap: 1rem;
+            margin-bottom: var(--mb-2-5);
+        }
+
+        .about__details-description {
+            display: inline-flex;
+            column-gap: .5rem;
+            font-size: var(--small-font-size);
+            margin-top: .15rem;
+        }
+
+        /*=============== STEPS ===============*/
+
+        .steps__bg {
+            background-color: var(--first-color);
+            padding: 3rem 2rem 2rem;
+            border-radius: 1rem;
+        }
+
+        .steps__container {
+            gap: 2rem;
+            padding-top: 1rem;
+        }
+
+        .steps__title {
+            color: #fff;
+        }
+
+        .steps__card {
+            background-color: var(--container-color);
+            padding: 2.5rem 3rem 2rem 1.5rem;
+            border-radius: 1rem;
+        }
+
+        .steps__card-number {
+            display: inline-block;
+            background-color: var(--first-color-alt);
+            color: #fff;
+            padding: .5rem .75rem;
+            border-radius: .25rem;
+            font-size: var(--h2-font-size);
+            margin-bottom: var(--mb-1-5);
+            transition: .3s;
+        }
+
+        .steps__card-title {
+            font-size: var(--h3-font-size);
+            margin-bottom: var(--mb-0-5);
+        }
+
+        .steps__card-description {
+            font-size: var(--small-font-size);
+        }
+
+        .steps__card:hover .steps__card-number {
+            transform: translateY(-.25rem);
+        }
+
+        /*=============== PRODUCTS ===============*/
+
+        .product__description {
+            text-align: center;
+        }
+
+        .product__container {
+            padding: 3rem 0;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem 3rem;
+        }
+
+        .product__card {
+            display: grid;
+            position: relative;
+        }
+
+        .product__img {
+            position: relative;
+            width: 120px;
+            justify-self: center;
+            margin-bottom: var(--mb-0-75);
+            transition: .3s;
+        }
+
+        .product__title,
+        .product__price {
+            font-size: var(--small-font-size);
+            font-weight: var(--font-semi-bold);
+            color: var(--title-color);
+        }
+
+        .product__title {
+            margin-bottom: .25rem;
+        }
+
+        .product__button {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            background-color: var(--first-color);
+            color: #fff;
+            padding: .25rem;
+            border-radius: .35rem;
+            font-size: 1.15rem;
+        }
+
+        .product__button:hover {
+            background-color: var(--first-color-alt);
+        }
+
+        .product__circle {
+            width: 90px;
+            height: 90px;
+            background-color: var(--first-color-lighten);
+            border-radius: 50%;
+            position: absolute;
+            top: 18%;
+            left: 5%;
+        }
+
+        .product__card:hover .product__img {
+            transform: translateY(-.5rem);
+        }
+
+        /*=============== QUESTIONS ===============*/
+
+        .questions {
+            background-color: var(--first-color-lighten);
+        }
+
+        .questions__container {
+            gap: 1.5rem;
+            padding: 1.5rem 0;
+        }
+
+        .questions__group {
+            display: grid;
+            row-gap: 1.5rem;
+        }
+
+        .questions__item {
+            background-color: var(--container-color);
+            border-radius: .25rem;
+        }
+
+        .questions__item-title {
+            font-size: var(--small-font-size);
+            font-weight: var(--font-medium);
+        }
+
+        .questions__icon {
+            font-size: 1.25rem;
+            color: var(--title-color);
+        }
+
+        .questions__description {
+            font-size: var(--smaller-font-size);
+            padding: 0 1.25rem 1.25rem 2.5rem;
+        }
+
+        .questions__header {
+            display: flex;
+            align-items: center;
+            column-gap: .5rem;
+            padding: .75rem .5rem;
+            cursor: pointer;
+        }
+
+        .questions__content {
+            overflow: hidden;
+            height: 0;
+        }
+
+        .questions__item,
+        .questions__header,
+        .questions__item-title,
+        .questions__icon,
+        .questions__description,
+        .questions__content {
+            transition: .3s;
+        }
+
+        .questions__item:hover {
+            box-shadow: 0 2px 8px hsla(var(--hue), 4%, 15%, .15);
+        }
+
+        /*Rotate icon, change color of titles and background*/
+
+        .accordion-open .questions__header,
+        .accordion-open .questions__content {
+            background-color: var(--first-color);
+        }
+
+        .accordion-open .questions__item-title,
+        .accordion-open .questions__description,
+        .accordion-open .questions__icon {
+            color: #fff;
+        }
+
+        .accordion-open .questions__icon {
+            transform: rotate(45deg);
+        }
+
+        /*=============== CONTACT ===============*/
+
+        .contact__container {
+            row-gap: 3.5rem;
+        }
+
+        .contact__data {
+            display: grid;
+            row-gap: 2rem;
+        }
+
+        .contact__subtitle {
+            font-size: var(--normal-font-size);
+            font-weight: var(--font-medium);
+            color: var(--text-color);
+            margin-bottom: var(--mb-0-5);
+        }
+
+        .contact__description {
+            display: inline-flex;
+            align-items: center;
+            column-gap: .5rem;
+            color: var(--title-color);
+            font-weight: var(--font-medium);
+        }
+
+        .contact__icon {
+            font-size: 1.25rem;
+        }
+
+        .contact__inputs {
+            display: grid;
+            row-gap: 2rem;
+            margin-bottom: var(--mb-2-5);
+        }
+
+        .contact__content {
+            position: relative;
+            height: 3rem;
+            border-bottom: 1px solid var(--text-color-light);
+        }
+
+        .contact__input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 1rem 1rem 1rem 0;
+            background: none;
+            color: var(--text-color);
+            border: none;
+            outline: none;
+            z-index: 1;
+        }
+
+        .contact__label {
+            position: absolute;
+            top: .75rem;
+            width: 100%;
+            font-size: var(--small-font-size);
+            color: var(--text-color-light);
+            transition: .3s;
+        }
+
+        .contact__area {
+            height: 7rem;
+        }
+
+        .contact__area textarea {
+            resize: none;
+        }
+
+        /*Input focus move up label*/
+
+        .contact__input:focus+.contact__label {
+            top: -.75rem;
+            left: 0;
+            font-size: var(--smaller-font-size);
+            z-index: 10;
+        }
+
+        /*Input focus sticky top label*/
+
+        .contact__input:not(:placeholder-shown).contact__input:not(:focus)+.contact__label {
+            top: -.75rem;
+            font-size: var(--smaller-font-size);
+            z-index: 10;
+        }
+
+        /*=============== FOOTER ===============*/
+
+        .footer__container {
+            row-gap: 3rem;
+        }
+
+        .footer__logo {
+            display: inline-flex;
+            align-items: center;
+            column-gap: .5rem;
+            color: var(--title-color);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: var(--mb-2-5);
+            transition: .3s;
+        }
+
+        .footer__logo-icon {
+            font-size: 1.15rem;
+            color: var(--first-color);
+        }
+
+        .footer__logo:hover {
+            color: var(--first-color);
+        }
+
+        .first__title {
+            font-size: var(--h3-font-size);
+            margin-bottom: var(--mb-1-5);
+        }
+
+        .footer__subscribe {
+            background-color: var(--first-color-lighten);
+            padding: .75rem;
+            display: flex;
+            justify-content: space-between;
+            border-radius: .5rem;
+        }
+
+        .footer__input {
+            width: 70%;
+            padding: 0 .5rem;
+            background: none;
+            color: var(--text-color);
+            border: none;
+            outline: none;
+        }
+
+        .footer__button {
+            padding: 1rem;
+        }
+
+        .footer__data {
+            display: grid;
+            row-gap: .75rem;
+        }
+
+        .footer__information {
+            font-size: var(--small-font-size);
+        }
+
+        .footer__social {
+            display: inline-flex;
+            column-gap: .75rem;
+        }
+
+        .footer__social-link {
+            font-size: 1rem;
+            color: var(--text-color);
+            transition: .3s;
+        }
+
+        .footer__social-link:hover {
+            transform: translateY(-.25rem);
+        }
+
+        .footer__cards {
+            display: inline-flex;
+            align-items: center;
+            column-gap: .5rem;
+        }
+
+        .footer__card {
+            width: 35px;
+        }
+
+        .footer__copy {
+            text-align: center;
+            font-size: var(--smaller-font-size);
+            color: var(--text-color-light);
+            margin: 5rem 0 1rem;
+        }
+
+        /*=============== SCROLL UP ===============*/
+
+        .scrollup {
+            position: fixed;
+            background-color: var(--first-color);
+            right: 1rem;
+            bottom: -100%;
+            padding: .5rem;
+            display: inline-flex;
+            border-radius: .25rem;
+            z-index: var(--z-tooltip);
+            opacity: 8;
+            transition: .4s;
+        }
+
+        .scrollup__icon {
+            font-size: 1rem;
+            color: #fff;
+        }
+
+        .scrollup:hover {
+            background-color: var(--first-color-alt);
+            opacity: 1;
+        }
+
+        /* Show Scroll Up*/
+
+        .show-scroll {
+            bottom: 3rem;
+        }
+
+        /*=============== SCROLL BAR ===============*/
+
+        ::-webkit-scrollbar {
+            width: .6rem;
+            background: hsl(var(--hue), 4%, 53%);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: hsl(var(--hue), 4%, 29%);
+            border-radius: .5rem;
+        }
+
+        /*=============== BREAKPOINTS ===============*/
+        /* For small devices */
+
+        @media screen and (max-width: 320px) {
+            .container {
+                margin-left: var(--mb-1);
+                margin-right: var(--mb-1);
+            }
+
+            .home__img {
+                width: 180px;
+            }
+
+            .home__title {
+                font-size: var(--h1-font-size);
+            }
+
+            .steps__bg {
+                padding: 2rem 1rem;
+            }
+
+            .steps__card {
+                padding: 1.5rem;
+            }
+
+            .product__container {
+                grid-template-columns: .6fr;
+                justify-content: center;
+            }
+        }
+
+        /* For medium devices */
+
+        @media screen and (min-width: 576px) {
+            .steps__container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .steps__card {
+                padding: 1.5rem;
+            }
+
+            .product__container {
+                grid-template-columns: repeat(2, 170px);
+                justify-content: center;
+                column-gap: 5rem;
+            }
+
+            .product__description {
+                padding: 0 4rem;
+            }
+
+            .footer__subscribe {
+                width: 400px;
+            }
+        }
+
+        @media screen and (min-width: 767px) {
+            body {
+                margin: 0;
+            }
+
+            .nav {
+                height: calc(var(--header-height) + 1.5rem);
+                column-gap: 3rem;
+            }
+
+            .nav__toggle,
+            .nav__close {
+                display: none;
+            }
+
+            .nav__list {
+                flex-direction: row;
+                column-gap: 3rem;
+            }
+
+            .nav__menu {
+                margin-left: auto;
+            }
+
+            .google-map {
+                padding-bottom: 50%;
+                position: relative;
+            }
+
+            .google-map iframe {
+                height: 100%;
+                width: 100%;
+                left: 0;
+                top: 0;
+                position: absolute;
+            }
+
+            .home__container,
+            .about__container,
+            .questions__container,
+            .contact__container,
+            .footer__container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .home {
+                padding: 10rem 0 5rem;
+            }
+
+            .home__container {
+                align-items: center;
+            }
+
+            .home__img {
+                width: 280px;
+                order: 1;
+            }
+
+            .home__social {
+                top: 30%;
+            }
+
+            .questions__container {
+                align-items: flex-start;
+            }
+
+            .footer__container {
+                column-gap: 3rem;
+            }
+
+            .footer__subscribe {
+                width: initial;
+            }
+        }
+
+        /* For large devices */
+
+        @media screen and (min-width: 992px) {
+            .container {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .section {
+                padding: 8rem 0 1rem;
+            }
+
+            .section__title,
+            .section__title-center {
+                font-size: var(--h1-font-size);
+            }
+
+            .home {
+                padding: 13rem 0 5rem;
+            }
+
+            .home__img {
+                width: 350px;
+            }
+
+            .home__description {
+                padding-right: 7rem;
+            }
+
+            .about__img {
+                width: 380px;
+            }
+
+            .steps__container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .steps__bg {
+                padding: 3.5rem 2.5rem;
+            }
+
+            .steps__card-title {
+                font-size: var(--normal-font-size);
+            }
+
+            .product__description {
+                padding: 0 16rem;
+            }
+
+            .product__container {
+                padding: 4rem 0;
+                grid-template-columns: repeat(3, 185px);
+                gap: 4rem 6rem;
+            }
+
+            .product__img {
+                width: 160px;
+            }
+
+            .product__circle {
+                width: 110px;
+                height: 110px;
+            }
+
+            .product__title,
+            .product__price {
+                font-size: var(--normal-font-size);
+            }
+
+            .questions__container {
+                padding: 1rem 0 4rem;
+            }
+
+            .questions__title {
+                text-align: initial;
+            }
+
+            .questions__group {
+                row-gap: 2rem;
+            }
+
+            .question__header {
+                padding: 1rem;
+            }
+
+            .questions__description {
+                padding: 0 3.5rem 2.25rem 2.75rem;
+            }
+
+            .footer__log {
+                font-size: var(--h3-font-size);
+            }
+
+            .footer__container {
+                grid-template-columns: 1fr .5fr .5fr .5fr;
+            }
+
+            .footer__copy {
+                margin: 7rem 0 2rem;
+            }
+        }
+
+        @media screen and (min-width: 1200px) {
+            .home__social {
+                right: -3rem;
+                row-gap: 4.5rem;
+            }
+
+            .home__social-follow {
+                font-size: var(--small-font-size);
+            }
+
+            .home__social-follow::after {
+                width: 1.5rem;
+                right: -60%;
+            }
+
+            .home__social-link {
+                font-size: 1.15rem;
+            }
+
+            .about__container {
+                column-gap: 7rem;
+            }
+
+            .scrollup {
+                right: 3rem;
+            }
+        }
+    </style>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="C:\Users\Sruthy\OneDrive\Desktop\DRHW\WhatsApp Image 2023-05-23 at 3.36.10 PM.jpeg"
+        type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="C:\Users\Sruthy\OneDrive\Desktop\DRHW\style1.css">
+    <title>DR HARDWARES</title><br>
+</head>
+
+<body>
+    <div class="img1">
+        <img src="C:\Users\Sruthy\OneDrive\Desktop\DRHW\DR logo.jpg">
+    </div>
+    <!--==================== HEADER ====================-->
+    <header class="header" id="header">
+        <nav class="nav container">
+            <a href="#" class="nav__logo">
+                <i class="bx bxl-xing"></i> DR HARDWARES
+            </a>
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item">
+                        <a href="#home" class="nav__link">Home</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#about" class="nav__link">About</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#products" class="nav__link">Products</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#faqs" class="nav__link">FAQs</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#contact" class="nav__link">Contact</a>
+                    </li>
+                </ul>
+                <div class="nav__close" id="nav-close">
+                    <i class="ri-close-line"></i>
+                </div>
+            </div>
+            <div class="nav__btns">
+                <!-- theme change button -->
+                <i class="ri-moon-line change-theme" id="theme-button"></i>
+                <div class="nav__toggle" id="nav-toggle">
+                    <i class="ri-menu-line"></i>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+    <main class="main">
+        <!--==================== HOME ====================-->
+        <section class="home" id="home">
+            <div class="home__container container grid">
+                <img src=" C:\Users\Sruthy\OneDrive\Desktop\DRHW\WhatsApp Image 2023-05-23 at 3.36.10 PM.jpeg " alt=""
+                    class="home__img">
+                <div class="home__data">
+                    <h1 class="home__title">WELCOME TO DR HARDWARES <br>We have Provide all construction Products</h1>
+                    <p class="home__description">
+                        Hardware,Sanitary,PLumbing,Paints,Electricals,Kadappa,Spair parts,Flower Pots are available at
+                        reasonable price.
+                    </p>
+
+                </div>
+                <div class="home__social">
+                    <span class="home__social-follow">Follow Us</span>
+
+                    <div class="home__social-links">
+                        <a href="https://www.facebook.com/rajendran.raja.1213986?mibextid=ZbWKwL" target="_blank"
+                            class="home__social-link"><i class="ri-facebook-fill"></i></a>
+                        <div class="footer_social">
+                            <a href="https://wa.me/8943104119" class="footer__social-link" alt="Chat on WhatsApp"
+                                src="C:\Users\Sruthy\OneDrive\Desktop\DRHW\wp.jpeg">
+                                <img src="C:\Users\Sruthy\OneDrive\Desktop\DRHW\wp.jpeg" width="25px"
+                                    height="25px"><img>
+                                <i style="font-size:24px"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!--==================== ABOUT ====================-->
+        <section class="about section container" id="about">
+            <div class="about__container grid">
+                <img src="https://t.ly/i_F4" alt="" class="about__img">
+                <div class="about__data">
+                    <h2 class="section__title about_title">Who we really are & <br> why choose us</h2>
+                    <p class="about__description">We have all branded Hardware
+                        Items,Plumbing,Paints,Sanitary,Cement,Electricals,Flower Pots,Kadappa as reasonable price and
+                        also we provide Delivery Service</p>
+                    <div class="about__details">
+                        <p class="about__details-decription">
+                            <i class="ri-checkbox-fill about__details-icon"></i> We always deliver on time.
+                        </p>
+                        <p class="about__details-decription">
+                            <i class="ri-checkbox-fill about__details-icon"></i> Resonable Price
+                        </p>
+                        <p class="about__details-decription">
+                            <i class="ri-checkbox-fill about__details-icon"></i> We always come over for a check-up
+                            after sale.
+                        </p>
+                        <p class="about__details-decription">
+                            <i class="ri-checkbox-fill about__details-icon"></i> Guranteed Products
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!--==================== STEPS ====================-->
+        <section class="steps section container">
+            <div class="steps__bg">
+                <h2 class="section__title-center steps__title">Steps to start your <br> purchase off right</h2>
+                <div class="steps__container grid">
+                    <div class="steps__card">
+                        <div class="steps__card-number">01</div>
+                        <h3 class="steps__card-title">Paints</h3>
+                        <p class="steps__card-description">All types of branded Paints like
+                            Nerolac,Berger,Asianpaints,etc.. are available here</p>
+                    </div>
+                    <div class="steps__card">
+                        <div class="steps__card-number">02</div>
+                        <h3 class="steps__card-title">Electricals</h3>
+                        <p class="steps__card-description">All wiring solution are here, branded wire,bulb, modular
+                            switches,smart lights and all electrical products are availabke here</p>
+                    </div>
+                    <div class="steps__card">
+                        <div class="steps__card-number">03</div>
+                        <h3 class="steps__card-title">Plumbing </h3>
+                        <p class="steps__card-description">All types of branded Plumbing like
+                            Sumolex,Payal,Ocean,Flowmat,Lamit.. are available here</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!--==================== PRODUCTS ====================-->
+        <section class="product section container" id="products">
+            <h2 class="section__title-center">Check out our <br> products</h2>
+            <p class="product__description">Here are some selected products from our shop, all are in excellent quality
+                and has a long life span.</p>
+            <div class="product__container grid">
+                <article class="product__card">
+                    <img src="https://t.ly/i3NX" alt="" class="product__img">
+                    <h3 class="product__title">Paints</h3>
+                    <button class="button--flex product__button">
+                        <i class="ri-shopping-bag-line"></i>
+                    </button>
+                </article>
+                <article class="product__card">
+                    <img src="https://t.ly/6CZ-" alt="" class="product__img">
+                    <h3 class="product__title">Electricals</h3>
+                    <button class="button--flex product__button">
+                        <i class="ri-shopping-bag-line"></i>
+                    </button>
+                </article>
+                <article class="product__card">
+                    <img src="https://t.ly/TEgU4" alt="" class="product__img">
+                    <h3 class="product__title">Plumbing</h3>
+                    <button class="button--flex product__button">
+                        <i class="ri-shopping-bag-line"></i>
+                    </button>
+                </article>
+                <article class="product__card">
+                    <img src="https://t.ly/4JML" alt="" class="product__img"><br>
+
+
+                    <h3 class="product__title">Flower Pots</h3><br><br>
+                    <button class="button--flex product__button">
+                        <i class="ri-shopping-bag-line"></i>
+                    </button>
+                </article>
+
+                <article class="product__card">
+
+
+                    <img src="https://t.ly/3jy9" alt="" class="product__img">
+                    <h3 class="product__title">GI and CAUSTING</h3>
+                    <button class="button--flex product__button">
+                        <i class="ri-shopping-bag-line"></i>
+                    </button>
+                </article>
+
+                <article class="product__card">
+
+
+                    <img src="https://t.ly/xXAx" alt="" class="product__img">
+                    <h3 class="product__title">Chain links</h3>
+                    <button class="button--flex product__button">
+                        <i class="ri-shopping-bag-line"></i>
+                    </button>
+                </article>
+            </div>
+        </section>
+
+        <!--==================== QUESTIONS ====================-->
+        <section class="questions section" id="faqs">
+            <h2 class="section__title-center questions__title container">Some common questions <br> were often asked
+            </h2>
+
+            <div class="questions__container container grid">
+                <div class="questions__group">
+                    <div class="questions__item">
+                        <header class="questions__header">
+                            <i class="ri-add-line questions__icon"></i>
+                            <h3 class="questions__item-title">Is all brand are same Quality?</h3>
+                        </header>
+                        <div class="questions__content">
+                            <p class="questions__description">
+                                No,All brand are not same quality.Some brands are ISI and some are not so if it is high
+                                rated products it be guranteed for more days </p>
+                        </div>
+                    </div>
+                    <div class="questions__item">
+                        <header class="questions__header">
+                            <i class="ri-add-line questions__icon"></i>
+                            <h3 class="questions__item-title">
+                                Why the cement became hard?
+                            </h3>
+                        </header>
+                        <div class="questions__content">
+                            <p class="questions__description">
+                                After the use of cement you should cover tightly without entering air otherwise it will
+                                hard.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="questions__item">
+                        <header class="questions__header">
+                            <i class="ri-add-line questions__icon"></i>
+                            <h3 class="questions__item-title">Is all brand paints are same quality?</h3>
+                        </header>
+                        <div class="questions__content">
+                            <p class="questions__description">
+                                Yes,But when you choose custom color it will be more prefer to because you get color
+                                which you wish
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="questions__group">
+                    <div class="questions__item">
+                        <header class="questions__header">
+                            <i class="ri-add-line questions__icon"></i>
+                            <h3 class="questions__item-title">Do you Provide delivery service?</h3>
+                        </header>
+                        <div class="questions__content">
+                            <p class="questions__description">
+                                Of course we providing delivery service.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="questions__item">
+                        <header class="questions__header">
+                            <i class="ri-add-line questions__icon"></i>
+                            <h3 class="questions__item-title">
+                                How is the quality of Flower Pots?
+                            </h3>
+                        </header>
+                        <div class="questions__content">
+                            <p class="questions__description">
+                                Flower Pots which are self maded,so there is no any problems we face in Flower pots
+                                because we use good quality products.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="questions__item">
+                        <header class="questions__header">
+                            <i class="ri-add-line questions__icon"></i>
+                            <h3 class="questions__item-title">Is Cost for the products are high in your shop?</h3>
+                        </header>
+                        <div class="questions__content">
+                            <p class="questions__description">
+                                We are providing resonable price for all products
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!--==================== CONTACT ====================-->
+        <section class="contact section container" id="contact">
+            <div class="contact__container grid">
+                <div class="contact__box">
+                    <h2 class="section__title">
+                        Reach out to us today <br> via any of the given <br> information
+                    </h2>
+
+                    <div class="contact__data">
+                        <div class="contact__information">
+                            <h3 class="contact__subtitle">Call us for instant support</h3>
+                            <span class="contact__description">
+                                <i class="ri-phone-line contact__icon"></i>
+                                +91 9747288346
+                            </span>
+                        </div>
+
+                        <div class="contact__information">
+                            <h3 class="contact__subtitle">Write us by mail</h3>
+                            <span class="contact__description">
+                                <i class="ri-mail-line contact__icon"></i>
+                                rajendranddamodaran@gmail.com
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <form action="" class="contact__form">
+                    <div class="contact__inputs">
+                        <div class="contact__content">
+                            <input type="email" placeholder=" " class="contact__input">
+                            <label for="" class="contact__label">Email</label>
+                        </div>
+
+                        <div class="contact__content">
+                            <input type="text" placeholder=" " class="contact__input">
+                            <label for="" class="contact__label">Subject</label>
+                        </div>
+
+                        <div class="contact__content contact__area">
+                            <textarea name="message" placeholder=" " class="contact__input"></textarea>
+                            <label for="" class="contact__label">Which item you want please type here </label>
+                        </div>
+                    </div>
+
+                    <button
+                        onClick="window.location.href='https://www.google.com/maps/place/DR+HARDWARES/@11.1340526,76.6862891,17z/data=!3m1!4b1!4m6!3m5!1s0x3ba8893b76dc8d11:0xb03f0711b9584cb3!8m2!3d11.1340526!4d76.688864!16s%2Fg%2F11sv4z7cs2?entry=ttu';"
+                        class="button button--flex">
+                        Order
+                        <i class="ri-arrow-right-up-line button__icon"></i>
+                    </button>
+                </form>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!--==================== FOOTER ====================-->
+    <footer class="footer section">
+        <div class="footer__container container grid">
+            <div class="footer__content">
+                <a href="#" class="footer__logo">
+                    <i class="ri-leaf-line footer__logo-icon"></i> DR HARDWARES
+                </a>
+
+                <h3 class="footer__title">
+                    Visit Again To Our Shop... <br> to stay update
+                </h3>
+
+
+            </div>
+            <div class="footer__content">
+                <h3 class="footer__title">Our Address</h3>
+
+                <ul class="footer__data">
+                    <li class="footer__information">Kottathara<br> Opp Govt.Exercise office<br> Arogyamatha Junction<br>
+                        Attappadi,Palakkad,Kerala
+                        /li>
+                    <li class="footer__information">Pin-code:678581</li>
+                    <div class="footer_social">
+                        <a href="https://maps.app.goo.gl/KCieJFnH2RcTm9rt5" class="footer__social-link">
+                            <img src="https://t.ly/aWxI" width="25px" height="25px"><img>
+                            <i style="font-size:24px"></i>
+                        </a>
+                    </div>
+
+                </ul>
+            </div>
+            <div class="footer__content">
+                <h3 class="footer__title">Contact Us</h3>
+
+                <ul class="footer__data">
+                    <li class="footer__information">+91 6238576867</li>
+
+                    <div class="footer__social">
+                        <a href="https://www.facebook.com/rajendran.raja.1213986?mibextid=ZbWKwL"
+                            class="footer__social-link">
+                            <i class="ri-facebook-fill"></i>
+                            <div class="footer_social">
+                                <a href="https://wa.me/8943104119" class="footer__social-link" alt="Chat on WhatsApp"
+                                    src="WhatsAppButtonGreenLarge.svg">
+                                    <img src="https://rb.gy/n4hl9" width="25px" height="25px"><img>
+                                    <i style="font-size:24px"></i>
+
+                            </div>
+
+                        </a>
+
+                    </div>
+
+                </ul>
+            </div>
+            <div class="footer__content">
+                <h3 class="footer__title">We accept online payments</h3>
+
+                <div class="footer__cards">
+                    <img src="data:image/png;base64,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"
+                        alt="" class="footer__card">
+                    <img src="data:image/png;base64,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"
+                        alt="" class="footer__card">
+                    <img src="data:image/png;base64,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"
+                        alt="" class="footer__card">
+                    <img src="data:image/png;base64,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"
+                        alt="" class="footer__card">
+                </div>
+            </div>
+        </div>
+        <p class="footer__copy">
+            &#169; Since 2010
+        </p>
+    </footer>
+
+    <!--=============== SCROLL UP ===============-->
+    <a href="#" class="scrollup" id="scroll-up">
+        <i class="ri-arrow-up-fill scrollup__icon"></i>
+    </a>
+
+    <!--=============== SCROLL REVEAL ===============-->
+    <script src="C:\Project DR HARDWARE\templates\scrollreveal.min.js"></script>
+
+    <!--=============== MAIN JS ===============-->
+    <script src="C:\Project DR HARDWARE\templates\main.js"></script>
+
+    <head>
+        <script>
+            /*=============== SHOW MENU ===============*/
+            const navMenu = document.getElementById('nav-menu'),
+                navToggle = document.getElementById('nav-toggle'),
+                navClose = document.getElementById('nav-close')
+
+            /*===== MENU SHOW =====*/
+            /* Validate if constant exists */
+            if (navToggle) {
+                navToggle.addEventListener('click', () => {
+                    navMenu.classList.add('show-menu')
+                })
+            }
+
+            /*===== MENU HIDDEN =====*/
+            /* Validate if constant exists */
+            if (navClose) {
+                navClose.addEventListener('click', () => {
+                    navMenu.classList.remove('show-menu')
+                })
+            }
+
+            /*=============== REMOVE MENU MOBILE ===============*/
+            const navLink = document.querySelectorAll('.nav__link')
+
+            function linkAction() {
+                const navMenu = document.getElementById('nav-menu')
+                // When we click on each nav__link, we remove the show-menu class
+                navMenu.classList.remove('show-menu')
+            }
+            navLink.forEach(n => n.addEventListener('click', linkAction))
+
+            /*=============== CHANGE BACKGROUND HEADER ===============*/
+            function scrollHeader() {
+                const header = document.getElementById('header')
+                // When the scroll is greater than 80 viewport height, add the scroll-header class to the header tag
+                if (this.scrollY >= 80) header.classList.add('scroll-header');
+                else header.classList.remove('scroll-header')
+            }
+            window.addEventListener('scroll', scrollHeader)
+
+            /*=============== QUESTIONS ACCORDION ===============*/
+            const accordionItems = document.querySelectorAll('.questions__item');
+
+            accordionItems.forEach((item) => {
+                const accordionHeader = item.querySelector('.questions__header');
+
+                accordionHeader.addEventListener('click', () => {
+                    const openItem = document.querySelector('.accordion-open')
+                    toggleItem(item)
+
+                    if (openItem && open !== item) {
+                        toggleItem(openItem)
+                    }
+
+                });
+            });
+
+            const toggleItem = (item) => {
+                const accordionContent = item.querySelector('.questions__content');
+
+                if (item.classList.contains('accordion-open')) {
+                    accordionContent.removeAttribute('style');
+                    item.classList.remove('accordion-open');
+                } else {
+                    accordionContent.style.height = accordionContent.scrollHeight + 'px';
+                    item.classList.add('accordion-open')
+                }
+            }
+            /*=============== SCROLL SECTIONS ACTIVE LINK ===============*/
+            const sections = document.querySelectorAll('section[id]')
+
+            function scrollActive() {
+                const scrollY = window.pageYOffset
+
+                sections.forEach(current => {
+                    const sectionHeight = current.offsetHeight
+                    const sectionTop = current.offsetTop - 50;
+                    sectionId = current.getAttribute('id')
+
+                    if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+                        document.querySelector('.nav__menu a[href*=' + sectionId + ']').classList.add('active-link')
+                    } else {
+                        document.querySelector('.nav__menu a[href*=' + sectionId + ']').classList.remove('active-link')
+                    }
+                })
+            }
+            window.addEventListener('scroll', scrollActive)
+
+            /*=============== SHOW SCROLL UP ===============*/
+            function scrollUp() {
+                const scrollUp = document.getElementById('scroll-up');
+                // When the scroll is higher than 200 viewport height, add the show-scroll class to the a tag with the scroll-top class
+                if (this.scrollY >= 100) scrollUp.classList.add('show-scroll');
+                else scrollUp.classList.remove('show-scroll')
+            }
+            window.addEventListener('scroll', scrollUp)
+
+            /*=============== DARK LIGHT THEME ===============*/
+            const themeButton = document.getElementById('theme-button')
+            const darkTheme = 'dark-theme'
+            const iconTheme = 'ri-sun-line'
+
+            // Previously selected topic (if user selected)
+            const selectedTheme = localStorage.getItem('selected-theme')
+            const selectedIcon = localStorage.getItem('selected-icon')
+
+            // We obtain the current theme that the interface has by validating the dark-theme class
+            const getCurrentTheme = () => document.body.classList.contains(darkTheme) ? 'dark' : 'light'
+            const getCurrentIcon = () => themeButton.classList.contains(iconTheme) ? 'ri-moon-line' : 'ri-sun-line'
+
+            // We validate if the user previously chose a topic
+            if (selectedTheme) {
+                // If the validation is fulfilled, we ask what the issue was to know if we activated or deactivated the dark
+                document.body.classList[selectedTheme === 'dark' ? 'add' : 'remove'](darkTheme)
+                themeButton.classList[selectedIcon === 'ri-moon-line' ? 'add' : 'remove'](iconTheme)
+            }
+
+            // Activate / deactivate the theme manually with the button
+            themeButton.addEventListener('click', () => {
+                // Add or remove the dark / icon theme
+                document.body.classList.toggle(darkTheme)
+                themeButton.classList.toggle(iconTheme)
+                // We save the theme and the current icon that the user chose
+                localStorage.setItem('selected-theme', getCurrentTheme())
+                localStorage.setItem('selected-icon', getCurrentIcon())
+            })
+
+            /*=============== SCROLL REVEAL ANIMATION ===============*/
+            const sr = ScrollReveal({
+                origin: 'top',
+                distance: '60px',
+                duration: 2500,
+                delay: 400,
+                reset: true
+            });
+
+            sr.reveal(`.home__data`)
+            sr.reveal(`.home__img`, {
+                delay: 500
+            })
+            sr.reveal(`.home__social`, {
+                delay: 600
+            })
+            sr.reveal(`.about__img, .contact__box`, {
+                origin: 'left'
+            })
+            sr.reveal(`.about__data, .contact__form`, {
+                origin: 'right'
+            })
+            sr.reveal(`.steps__card, .product__card, .questions__group, .footer`, {
+                interval: 100
+            })
+
+            /*! @license ScrollReveal v4.0.9
+
+                Copyright 2021 Fisssion LLC.
+
+                Licensed under the GNU General Public License 3.0 for
+                compatible open source projects and non-commercial use.
+
+                For commercial sites, themes, projects, and applications,
+                keep your source code private/proprietary by purchasing
+                a commercial license from https://scrollrevealjs.org/
+            */
+            var ScrollReveal = function () {
+                "use strict";
+                var r = {
+                    delay: 0,
+                    distance: "0",
+                    duration: 600,
+                    easing: "cubic-bezier(0.5, 0, 0, 1)",
+                    interval: 0,
+                    opacity: 0,
+                    origin: "bottom",
+                    rotate: {
+                        x: 0,
+                        y: 0,
+                        z: 0
+                    },
+                    scale: 1,
+                    cleanup: !1,
+                    container: document.documentElement,
+                    desktop: !0,
+                    mobile: !0,
+                    reset: !1,
+                    useDelay: "always",
+                    viewFactor: 0,
+                    viewOffset: {
+                        top: 0,
+                        right: 0,
+                        bottom: 0,
+                        left: 0
+                    },
+                    afterReset: function () { },
+                    afterReveal: function () { },
+                    beforeReset: function () { },
+                    beforeReveal: function () { }
+                };
+                var n = {
+                    success: function () {
+                        document.documentElement.classList.add("sr"), document.body ? document.body.style.height = "100%" : document.addEventListener("DOMContentLoaded", function () {
+                            document.body.style.height = "100%"
+                        })
+                    },
+                    failure: function () {
+                        return document.documentElement.classList.remove("sr"), {
+                            clean: function () { },
+                            destroy: function () { },
+                            reveal: function () { },
+                            sync: function () { },
+                            get noop() {
+                                return !0
+                            }
+                        }
+                    }
+                };
+
+                function o(e) {
+                    return "object" == typeof window.Node ? e instanceof window.Node : null !== e && "object" == typeof e && "number" == typeof e.nodeType && "string" == typeof e.nodeName
+                }
+
+                function u(e, t) {
+                    if (void 0 === t && (t = document), e instanceof Array) return e.filter(o);
+                    if (o(e)) return [e];
+                    if (n = e, i = Object.prototype.toString.call(n), "object" == typeof window.NodeList ? n instanceof window.NodeList : null !== n && "object" == typeof n && "number" == typeof n.length && /^\[object (HTMLCollection|NodeList|Object)\]$/.test(i) && (0 === n.length || o(n[0]))) return Array.prototype.slice.call(e);
+                    var n, i;
+                    if ("string" == typeof e) try {
+                        var r = t.querySelectorAll(e);
+                        return Array.prototype.slice.call(r)
+                    } catch (e) {
+                        return []
+                    }
+                    return []
+                }
+
+                function s(e) {
+                    return null !== e && e instanceof Object && (e.constructor === Object || "[object Object]" === Object.prototype.toString.call(e))
+                }
+
+                function f(n, i) {
+                    if (s(n)) return Object.keys(n).forEach(function (e) {
+                        return i(n[e], e, n)
+                    });
+                    if (n instanceof Array) return n.forEach(function (e, t) {
+                        return i(e, t, n)
+                    });
+                    throw new TypeError("Expected either an array or object literal.")
+                }
+
+                function h(e) {
+                    for (var t = [], n = arguments.length - 1; 0 < n--;) t[n] = arguments[n + 1];
+                    if (this.constructor.debug && console) {
+                        var i = "%cScrollReveal: " + e;
+                        t.forEach(function (e) {
+                            return i += "\n — " + e
+                        }), console.log(i, "color: #ea654b;")
+                    }
+                }
+
+                function t() {
+                    var n = this,
+                        i = {
+                            active: [],
+                            stale: []
+                        },
+                        t = {
+                            active: [],
+                            stale: []
+                        },
+                        r = {
+                            active: [],
+                            stale: []
+                        };
+                    try {
+                        f(u("[data-sr-id]"), function (e) {
+                            var t = parseInt(e.getAttribute("data-sr-id"));
+                            i.active.push(t)
+                        })
+                    } catch (e) {
+                        throw e
+                    }
+                    f(this.store.elements, function (e) {
+                        -1 === i.active.indexOf(e.id) && i.stale.push(e.id)
+                    }), f(i.stale, function (e) {
+                        return delete n.store.elements[e]
+                    }), f(this.store.elements, function (e) {
+                        -1 === r.active.indexOf(e.containerId) && r.active.push(e.containerId), e.hasOwnProperty("sequence") && -1 === t.active.indexOf(e.sequence.id) && t.active.push(e.sequence.id)
+                    }), f(this.store.containers, function (e) {
+                        -1 === r.active.indexOf(e.id) && r.stale.push(e.id)
+                    }), f(r.stale, function (e) {
+                        var t = n.store.containers[e].node;
+                        t.removeEventListener("scroll", n.delegate), t.removeEventListener("resize", n.delegate), delete n.store.containers[e]
+                    }), f(this.store.sequences, function (e) {
+                        -1 === t.active.indexOf(e.id) && t.stale.push(e.id)
+                    }), f(t.stale, function (e) {
+                        return delete n.store.sequences[e]
+                    })
+                }
+
+                function N(e) {
+                    if (e.constructor !== Array) throw new TypeError("Expected array.");
+                    if (16 === e.length) return e;
+                    if (6 !== e.length) throw new RangeError("Expected array with either 6 or 16 values.");
+                    var t = z();
+                    return t[0] = e[0], t[1] = e[1], t[4] = e[2], t[5] = e[3], t[12] = e[4], t[13] = e[5], t
+                }
+
+                function z() {
+                    for (var e = [], t = 0; t < 16; t++) t % 5 == 0 ? e.push(1) : e.push(0);
+                    return e
+                }
+
+                function F(e, t) {
+                    for (var n = N(e), i = N(t), r = [], o = 0; o < 4; o++)
+                        for (var s = [n[o], n[o + 4], n[o + 8], n[o + 12]], a = 0; a < 4; a++) {
+                            var c = 4 * a,
+                                l = [i[c], i[c + 1], i[c + 2], i[c + 3]],
+                                d = s[0] * l[0] + s[1] * l[1] + s[2] * l[2] + s[3] * l[3];
+                            r[o + c] = d
+                        }
+                    return r
+                }
+
+                function D(e, t) {
+                    var n = z();
+                    return n[0] = e, n[5] = "number" == typeof t ? t : e, n
+                }
+                var S = function () {
+                    var n = {},
+                        i = document.documentElement.style;
+
+                    function e(e, t) {
+                        if (void 0 === t && (t = i), e && "string" == typeof e) {
+                            if (n[e]) return n[e];
+                            if ("string" == typeof t[e]) return n[e] = e;
+                            if ("string" == typeof t["-webkit-" + e]) return n[e] = "-webkit-" + e;
+                            throw new RangeError('Unable to find "' + e + '" style property.')
+                        }
+                        throw new TypeError("Expected a string.")
+                    }
+                    return e.clearCache = function () {
+                        return n = {}
+                    }, e
+                }();
+
+                function p(e) {
+                    var t = window.getComputedStyle(e.node),
+                        n = t.position,
+                        i = e.config,
+                        r = {},
+                        o = (e.node.getAttribute("style") || "").match(/[\w-]+\s*:\s*[^;]+\s*/gi) || [];
+                    r.computed = o ? o.map(function (e) {
+                        return e.trim()
+                    }).join("; ") + ";" : "", r.generated = o.some(function (e) {
+                        return e.match(/visibility\s?:\s?visible/i)
+                    }) ? r.computed : o.concat(["visibility: visible"]).map(function (e) {
+                        return e.trim()
+                    }).join("; ") + ";";
+                    var s, a, c, l, d, u, f, h, p, m, y, v, g, b = parseFloat(t.opacity),
+                        w = isNaN(parseFloat(i.opacity)) ? parseFloat(t.opacity) : parseFloat(i.opacity),
+                        E = {
+                            computed: b !== w ? "opacity: " + b + ";" : "",
+                            generated: b !== w ? "opacity: " + w + ";" : ""
+                        },
+                        j = [];
+                    if (parseFloat(i.distance)) {
+                        var T = "top" === i.origin || "bottom" === i.origin ? "Y" : "X",
+                            k = i.distance;
+                        "top" !== i.origin && "left" !== i.origin || (k = /^-/.test(k) ? k.substr(1) : "-" + k);
+                        var O = k.match(/(^-?\d+\.?\d?)|(em$|px$|%$)/g),
+                            x = O[0];
+                        switch (O[1]) {
+                            case "em":
+                                k = parseInt(t.fontSize) * x;
+                                break;
+                            case "px":
+                                k = x;
+                                break;
+                            case "%":
+                                k = "Y" === T ? e.node.getBoundingClientRect().height * x / 100 : e.node.getBoundingClientRect().width * x / 100;
+                                break;
+                            default:
+                                throw new RangeError("Unrecognized or missing distance unit.")
+                        }
+                        "Y" === T ? j.push((c = k, (l = z())[13] = c, l)) : j.push((s = k, (a = z())[12] = s, a))
+                    }
+                    i.rotate.x && j.push((d = i.rotate.x, u = Math.PI / 180 * d, (f = z())[5] = f[10] = Math.cos(u), f[6] = f[9] = Math.sin(u), f[9] *= -1, f)), i.rotate.y && j.push((h = i.rotate.y, p = Math.PI / 180 * h, (m = z())[0] = m[10] = Math.cos(p), m[2] = m[8] = Math.sin(p), m[2] *= -1, m)), i.rotate.z && j.push((y = i.rotate.z, v = Math.PI / 180 * y, (g = z())[0] = g[5] = Math.cos(v), g[1] = g[4] = Math.sin(v), g[4] *= -1, g)), 1 !== i.scale && (0 === i.scale ? j.push(D(2e-4)) : j.push(D(i.scale)));
+                    var R = {};
+                    if (j.length) {
+                        R.property = S("transform"), R.computed = {
+                            raw: t[R.property],
+                            matrix: function (e) {
+                                if ("string" == typeof e) {
+                                    var t = e.match(/matrix(3d)?\(([^)]+)\)/);
+                                    if (t) return N(t[2].split(", ").map(parseFloat))
+                                }
+                                return z()
+                            }(t[R.property])
+                        }, j.unshift(R.computed.matrix);
+                        var q = j.reduce(F);
+                        R.generated = {
+                            initial: R.property + ": matrix3d(" + q.join(", ") + ");",
+                            final: R.property + ": matrix3d(" + R.computed.matrix.join(", ") + ");"
+                        }
+                    } else R.generated = {
+                        initial: "",
+                        final: ""
+                    };
+                    var A = {};
+                    if (E.generated || R.generated.initial) {
+                        A.property = S("transition"), A.computed = t[A.property], A.fragments = [];
+                        var P = i.delay,
+                            L = i.duration,
+                            M = i.easing;
+                        E.generated && A.fragments.push({
+                            delayed: "opacity " + L / 1e3 + "s " + M + " " + P / 1e3 + "s",
+                            instant: "opacity " + L / 1e3 + "s " + M + " 0s"
+                        }), R.generated.initial && A.fragments.push({
+                            delayed: R.property + " " + L / 1e3 + "s " + M + " " + P / 1e3 + "s",
+                            instant: R.property + " " + L / 1e3 + "s " + M + " 0s"
+                        }), A.computed && !A.computed.match(/all 0s|none 0s/) && A.fragments.unshift({
+                            delayed: A.computed,
+                            instant: A.computed
+                        });
+                        var I = A.fragments.reduce(function (e, t, n) {
+                            return e.delayed += 0 === n ? t.delayed : ", " + t.delayed, e.instant += 0 === n ? t.instant : ", " + t.instant, e
+                        }, {
+                            delayed: "",
+                            instant: ""
+                        });
+                        A.generated = {
+                            delayed: A.property + ": " + I.delayed + ";",
+                            instant: A.property + ": " + I.instant + ";"
+                        }
+                    } else A.generated = {
+                        delayed: "",
+                        instant: ""
+                    };
+                    return {
+                        inline: r,
+                        opacity: E,
+                        position: n,
+                        transform: R,
+                        transition: A
+                    }
+                }
+
+                function m(r, e) {
+                    e.split(";").forEach(function (e) {
+                        var t = e.split(":"),
+                            n = t[0],
+                            i = t.slice(1);
+                        n && i && (r.style[n.trim()] = i.join(":"))
+                    })
+                }
+
+                function y(e) {
+                    var i, r = this;
+                    try {
+                        f(u(e), function (e) {
+                            var t = e.getAttribute("data-sr-id");
+                            if (null !== t) {
+                                i = !0;
+                                var n = r.store.elements[t];
+                                n.callbackTimer && window.clearTimeout(n.callbackTimer.clock), m(n.node, n.styles.inline.generated), e.removeAttribute("data-sr-id"), delete r.store.elements[t]
+                            }
+                        })
+                    } catch (e) {
+                        return h.call(this, "Clean failed.", e.message)
+                    }
+                    if (i) try {
+                        t.call(this)
+                    } catch (e) {
+                        return h.call(this, "Clean failed.", e.message)
+                    }
+                }
+
+                function v(n) {
+                    for (var e = [], t = arguments.length - 1; 0 < t--;) e[t] = arguments[t + 1];
+                    if (s(n)) return f(e, function (e) {
+                        f(e, function (e, t) {
+                            s(e) ? (n[t] && s(n[t]) || (n[t] = {}), v(n[t], e)) : n[t] = e
+                        })
+                    }), n;
+                    throw new TypeError("Target must be an object literal.")
+                }
+
+                function g(e) {
+                    return void 0 === e && (e = navigator.userAgent), /Android|iPhone|iPad|iPod/i.test(e)
+                }
+                var e, b = (e = 0, function () {
+                    return e++
+                });
+
+                function w() {
+                    var n = this;
+                    t.call(this), f(this.store.elements, function (e) {
+                        var t = [e.styles.inline.generated];
+                        e.visible ? (t.push(e.styles.opacity.computed), t.push(e.styles.transform.generated.final), e.revealed = !0) : (t.push(e.styles.opacity.generated), t.push(e.styles.transform.generated.initial), e.revealed = !1), m(e.node, t.filter(function (e) {
+                            return "" !== e
+                        }).join(" "))
+                    }), f(this.store.containers, function (e) {
+                        var t = e.node === document.documentElement ? window : e.node;
+                        t.addEventListener("scroll", n.delegate), t.addEventListener("resize", n.delegate)
+                    }), this.delegate(), this.initTimeout = null
+                }
+
+                function c(e, t) {
+                    void 0 === t && (t = {});
+                    var n = t.pristine || this.pristine,
+                        i = "always" === e.config.useDelay || "onload" === e.config.useDelay && n || "once" === e.config.useDelay && !e.seen,
+                        r = e.visible && !e.revealed,
+                        o = !e.visible && e.revealed && e.config.reset;
+                    return t.reveal || r ? function (e, t) {
+                        var n = [e.styles.inline.generated, e.styles.opacity.computed, e.styles.transform.generated.final];
+                        t ? n.push(e.styles.transition.generated.delayed) : n.push(e.styles.transition.generated.instant);
+                        e.revealed = e.seen = !0, m(e.node, n.filter(function (e) {
+                            return "" !== e
+                        }).join(" ")), a.call(this, e, t)
+                    }.call(this, e, i) : t.reset || o ? function (e) {
+                        var t = [e.styles.inline.generated, e.styles.opacity.generated, e.styles.transform.generated.initial, e.styles.transition.generated.instant];
+                        e.revealed = !1, m(e.node, t.filter(function (e) {
+                            return "" !== e
+                        }).join(" ")), a.call(this, e)
+                    }.call(this, e) : void 0
+                }
+
+                function a(e, t) {
+                    var n = this,
+                        i = t ? e.config.duration + e.config.delay : e.config.duration,
+                        r = e.revealed ? e.config.beforeReveal : e.config.beforeReset,
+                        o = e.revealed ? e.config.afterReveal : e.config.afterReset,
+                        s = 0;
+                    e.callbackTimer && (s = Date.now() - e.callbackTimer.start, window.clearTimeout(e.callbackTimer.clock)), r(e.node), e.callbackTimer = {
+                        start: Date.now(),
+                        clock: window.setTimeout(function () {
+                            o(e.node), e.callbackTimer = null, e.revealed && !e.config.reset && e.config.cleanup && y.call(n, e.node)
+                        }, i - s)
+                    }
+                }
+
+                function l(e, t) {
+                    if (void 0 === t && (t = this.pristine), !e.visible && e.revealed && e.config.reset) return c.call(this, e, {
+                        reset: !0
+                    });
+                    var n = this.store.sequences[e.sequence.id],
+                        i = e.sequence.index;
+                    if (n) {
+                        var r = new d(n, "visible", this.store),
+                            o = new d(n, "revealed", this.store);
+                        if (n.models = {
+                            visible: r,
+                            revealed: o
+                        }, !o.body.length) {
+                            var s = n.members[r.body[0]],
+                                a = this.store.elements[s];
+                            if (a) return j.call(this, n, r.body[0], -1, t), j.call(this, n, r.body[0], 1, t), c.call(this, a, {
+                                reveal: !0,
+                                pristine: t
+                            })
+                        }
+                        if (!n.blocked.head && i === [].concat(o.head).pop() && i >= [].concat(r.body).shift()) return j.call(this, n, i, -1, t), c.call(this, e, {
+                            reveal: !0,
+                            pristine: t
+                        });
+                        if (!n.blocked.foot && i === [].concat(o.foot).shift() && i <= [].concat(r.body).pop()) return j.call(this, n, i, 1, t), c.call(this, e, {
+                            reveal: !0,
+                            pristine: t
+                        })
+                    }
+                }
+
+                function E(e) {
+                    var t = Math.abs(e);
+                    if (isNaN(t)) throw new RangeError("Invalid sequence interval.");
+                    this.id = b(), this.interval = Math.max(t, 16), this.members = [], this.models = {}, this.blocked = {
+                        head: !1,
+                        foot: !1
+                    }
+                }
+
+                function d(e, i, r) {
+                    var o = this;
+                    this.head = [], this.body = [], this.foot = [], f(e.members, function (e, t) {
+                        var n = r.elements[e];
+                        n && n[i] && o.body.push(t)
+                    }), this.body.length && f(e.members, function (e, t) {
+                        var n = r.elements[e];
+                        n && !n[i] && (t < o.body[0] ? o.head.push(t) : o.foot.push(t))
+                    })
+                }
+
+                function j(e, t, n, i) {
+                    var r = this,
+                        o = ["head", null, "foot"][1 + n],
+                        s = e.members[t + n],
+                        a = this.store.elements[s];
+                    e.blocked[o] = !0, setTimeout(function () {
+                        e.blocked[o] = !1, a && l.call(r, a, i)
+                    }, e.interval)
+                }
+
+                function i(e, a, t) {
+                    var c = this;
+                    void 0 === a && (a = {}), void 0 === t && (t = !1);
+                    var l, d = [],
+                        n = a.interval || r.interval;
+                    try {
+                        n && (l = new E(n));
+                        var i = u(e);
+                        if (!i.length) throw new Error("Invalid reveal target.");
+                        f(i.reduce(function (e, t) {
+                            var n = {},
+                                i = t.getAttribute("data-sr-id");
+                            i ? (v(n, c.store.elements[i]), m(n.node, n.styles.inline.computed)) : (n.id = b(), n.node = t, n.seen = !1, n.revealed = !1, n.visible = !1);
+                            var r = v({}, n.config || c.defaults, a);
+                            if (!r.mobile && g() || !r.desktop && !g()) return i && y.call(c, n), e;
+                            var o, s = u(r.container)[0];
+                            if (!s) throw new Error("Invalid container.");
+                            return s.contains(t) && (null === (o = function (t) {
+                                var e = [],
+                                    n = arguments.length - 1;
+                                for (; 0 < n--;) e[n] = arguments[n + 1];
+                                var i = null;
+                                return f(e, function (e) {
+                                    f(e, function (e) {
+                                        null === i && e.node === t && (i = e.id)
+                                    })
+                                }), i
+                            }(s, d, c.store.containers)) && (o = b(), d.push({
+                                id: o,
+                                node: s
+                            })), n.config = r, n.containerId = o, n.styles = p(n), l && (n.sequence = {
+                                id: l.id,
+                                index: l.members.length
+                            }, l.members.push(n.id)), e.push(n)), e
+                        }, []), function (e) {
+                            (c.store.elements[e.id] = e).node.setAttribute("data-sr-id", e.id)
+                        })
+                    } catch (e) {
+                        return h.call(this, "Reveal failed.", e.message)
+                    }
+                    f(d, function (e) {
+                        c.store.containers[e.id] = {
+                            id: e.id,
+                            node: e.node
+                        }
+                    }), l && (this.store.sequences[l.id] = l), !0 !== t && (this.store.history.push({
+                        target: e,
+                        options: a
+                    }), this.initTimeout && window.clearTimeout(this.initTimeout), this.initTimeout = window.setTimeout(w.bind(this), 0))
+                }
+                var T, k = Math.sign || function (e) {
+                    return (0 < e) - (e < 0) || +e
+                },
+                    O = (T = Date.now(), function (e) {
+                        var t = Date.now();
+                        16 < t - T ? e(T = t) : setTimeout(function () {
+                            return O(e)
+                        }, 0)
+                    }),
+                    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || O;
+
+                function R(e, t) {
+                    for (var n = t ? e.node.clientHeight : e.node.offsetHeight, i = t ? e.node.clientWidth : e.node.offsetWidth, r = 0, o = 0, s = e.node; isNaN(s.offsetTop) || (r += s.offsetTop), isNaN(s.offsetLeft) || (o += s.offsetLeft), s = s.offsetParent;);
+                    return {
+                        bounds: {
+                            top: r,
+                            right: o + i,
+                            bottom: r + n,
+                            left: o
+                        },
+                        height: n,
+                        width: i
+                    }
+                }
+
+                function q(e, t) {
+                    var i = this;
+                    void 0 === e && (e = {
+                        type: "init"
+                    }), void 0 === t && (t = this.store.elements), x(function () {
+                        var n = "init" === e.type || "resize" === e.type;
+                        f(i.store.containers, function (e) {
+                            n && (e.geometry = R.call(i, e, !0));
+                            var t = function (e) {
+                                var t, n;
+                                return n = e.node === document.documentElement ? (t = window.pageYOffset, window.pageXOffset) : (t = e.node.scrollTop, e.node.scrollLeft), {
+                                    top: t,
+                                    left: n
+                                }
+                            }.call(i, e);
+                            e.scroll && (e.direction = {
+                                x: k(t.left - e.scroll.left),
+                                y: k(t.top - e.scroll.top)
+                            }), e.scroll = t
+                        }), f(t, function (e) {
+                            (n || void 0 === e.geometry) && (e.geometry = R.call(i, e)), e.visible = function (e) {
+                                void 0 === e && (e = {});
+                                var t = this.store.containers[e.containerId];
+                                if (t) {
+                                    var n = Math.max(0, Math.min(1, e.config.viewFactor)),
+                                        i = e.config.viewOffset,
+                                        r = e.geometry.bounds.top + e.geometry.height * n,
+                                        o = e.geometry.bounds.right - e.geometry.width * n,
+                                        s = e.geometry.bounds.bottom - e.geometry.height * n,
+                                        a = e.geometry.bounds.left + e.geometry.width * n,
+                                        c = t.geometry.bounds.top + t.scroll.top + i.top,
+                                        l = t.geometry.bounds.right + t.scroll.left - i.right,
+                                        d = t.geometry.bounds.bottom + t.scroll.top - i.bottom,
+                                        u = t.geometry.bounds.left + t.scroll.left + i.left;
+                                    return r < d && u < o && c < s && a < l || "fixed" === e.styles.position
+                                }
+                            }.call(i, e)
+                        }), f(t, function (e) {
+                            e.sequence ? l.call(i, e) : c.call(i, e)
+                        }), i.pristine = !1
+                    })
+                }
+                var A, P, L, M, I, C, W, Y, $ = "4.0.9";
+
+                function H(e) {
+                    var t;
+                    if (void 0 === e && (e = {}), void 0 === this || Object.getPrototypeOf(this) !== H.prototype) return new H(e);
+                    if (!H.isSupported()) return h.call(this, "Instantiation failed.", "This browser is not supported."), n.failure();
+                    try {
+                        t = v({}, C || r, e)
+                    } catch (e) {
+                        return h.call(this, "Invalid configuration.", e.message), n.failure()
+                    }
+                    try {
+                        if (!u(t.container)[0]) throw new Error("Invalid container.")
+                    } catch (e) {
+                        return h.call(this, e.message), n.failure()
+                    }
+                    return !(C = t).mobile && g() || !C.desktop && !g() ? (h.call(this, "This device is disabled.", "desktop: " + C.desktop, "mobile: " + C.mobile), n.failure()) : (n.success(), this.store = {
+                        containers: {},
+                        elements: {},
+                        history: [],
+                        sequences: {}
+                    }, this.pristine = !0, A = A || q.bind(this), P = P || function () {
+                        var n = this;
+                        f(this.store.elements, function (e) {
+                            m(e.node, e.styles.inline.generated), e.node.removeAttribute("data-sr-id")
+                        }), f(this.store.containers, function (e) {
+                            var t = e.node === document.documentElement ? window : e.node;
+                            t.removeEventListener("scroll", n.delegate), t.removeEventListener("resize", n.delegate)
+                        }), this.store = {
+                            containers: {},
+                            elements: {},
+                            history: [],
+                            sequences: {}
+                        }
+                    }.bind(this), L = L || i.bind(this), M = M || y.bind(this), I = I || function () {
+                        var t = this;
+                        f(this.store.history, function (e) {
+                            i.call(t, e.target, e.options, !0)
+                        }), w.call(this)
+                    }.bind(this), Object.defineProperty(this, "delegate", {
+                        get: function () {
+                            return A
+                        }
+                    }), Object.defineProperty(this, "destroy", {
+                        get: function () {
+                            return P
+                        }
+                    }), Object.defineProperty(this, "reveal", {
+                        get: function () {
+                            return L
+                        }
+                    }), Object.defineProperty(this, "clean", {
+                        get: function () {
+                            return M
+                        }
+                    }), Object.defineProperty(this, "sync", {
+                        get: function () {
+                            return I
+                        }
+                    }), Object.defineProperty(this, "defaults", {
+                        get: function () {
+                            return C
+                        }
+                    }), Object.defineProperty(this, "version", {
+                        get: function () {
+                            return $
+                        }
+                    }), Object.defineProperty(this, "noop", {
+                        get: function () {
+                            return !1
+                        }
+                    }), Y || (Y = this))
+                }
+                return H.isSupported = function () {
+                    return ("transform" in (t = document.documentElement.style) || "WebkitTransform" in t) && ("transition" in (e = document.documentElement.style) || "WebkitTransition" in e);
+                    var e, t
+                }, Object.defineProperty(H, "debug", {
+                    get: function () {
+                        return W || !1
+                    },
+                    set: function (e) {
+                        return W = "boolean" == typeof e ? e : W
+                    }
+                }), H(), H
+            }();
+        </script>
+    </head>
+</body>
+
+</html>
